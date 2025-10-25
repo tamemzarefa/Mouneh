@@ -18,6 +18,17 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                         </label>
                     </div>
+            <!-- Full-width search row -->
+            <div class="bg-base-100/80 border-b theme-border">
+                <div class="container mx-auto px-6 py-3">
+                    <div class="relative">
+                        <input type="text" placeholder="بحث في النظام..." class="input input-bordered w-full pl-10 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-base-content/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
                     <div class="flex-1">
                         <a href="/admin" class="inline-flex items-center gap-3 hover:opacity-80 transition-opacity">
                             <div class="relative">
@@ -30,14 +41,14 @@
                             </div>
                         </a>
                     </div>
-                    <div class="flex-none gap-3">
-                        <div class="form-control hidden md:block">
-                            <div class="relative">
-                                <input type="text" placeholder="بحث في النظام..." class="input input-bordered w-44 md:w-72 pl-10 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all" />
-                                <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-base-content/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </div>
+                    <div class="flex-none gap-3 items-center">
+                        <div id="adminClock" class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors ring-0 hover:ring-2 hover:ring-primary/20 cursor-default text-sm font-medium shadow-sm whitespace-nowrap text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4 text-primary">
+                                <path fill-rule="evenodd" d="M12 2.25a9.75 9.75 0 1 0 0 19.5 9.75 9.75 0 0 0 0-19.5zm.75 5.25a.75.75 0 0 0-1.5 0v4.5c0 .199.079.39.22.53l3 3a.75.75 0 1 0 1.06-1.06l-2.78-2.78V7.5z" clip-rule="evenodd" />
+                            </svg>
+                            <span id="clockDate" class="text-xs text-base-content/70"></span>
+                            <span class="opacity-30">|</span>
+                            <span id="clockTime" class="font-mono"></span>
                         </div>
                         <button id="themeToggle" class="btn btn-ghost btn-square hover:bg-base-200 transition-colors" title="تبديل النمط">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M21.752 15.002A9.718 9.718 0 0 1 12 21.75c-5.385 0-9.75-4.365-9.75-9.75 0-4.136 2.636-7.65 6.338-9.01a.75.75 0 0 1 .967.967A8.25 8.25 0 1 0 21.752 15.002z"/></svg>
@@ -276,6 +287,26 @@
             html.setAttribute('data-theme', next);
             try { localStorage.setItem('theme', next); } catch (e) {}
         });
+    })();
+    (function(){
+        const wrap = document.getElementById('adminClock');
+        if (!wrap) return;
+        const dateEl = document.getElementById('clockDate');
+        const timeEl = document.getElementById('clockTime');
+        function tick(){
+            const now = new Date();
+            try {
+                const dateStr = now.toLocaleDateString('ar-SY', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+                if (dateEl) dateEl.textContent = dateStr;
+                if (timeEl) timeEl.textContent = timeStr;
+            } catch (e) {
+                if (dateEl) dateEl.textContent = '';
+                if (timeEl) timeEl.textContent = now.toLocaleString();
+            }
+        }
+        tick();
+        setInterval(tick, 1000);
     })();
     (function(){
         // Initialize progress bars: set --value based on value/max attributes

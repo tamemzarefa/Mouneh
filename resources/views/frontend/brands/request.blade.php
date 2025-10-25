@@ -130,6 +130,69 @@ html, body {
   margin: 0 !important;
   line-height: 1.4 !important;
 }
+
+/* Enhanced Date Picker Styles */
+#established-date {
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+#established-date:hover {
+  border-color: var(--primary) !important;
+  background-color: #fef7f7 !important;
+}
+
+#established-date:focus {
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(126, 45, 43, 0.1) !important;
+}
+
+/* Calendar icon styling */
+.date-icon {
+  transition: color 0.2s ease;
+}
+
+#established-date:hover + .date-icon {
+  color: var(--primary) !important;
+}
+
+/* Mobile date picker improvements */
+@media (max-width: 768px) {
+  #established-date {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+  
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+  }
+}
+
+.sticky-submit-bar {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 50 !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e5d9d8 !important;
+  padding: 0.75rem 1rem !important;
+  display: flex !important;
+  justify-content: center !important;
+  backdrop-filter: saturate(180%) blur(10px);
+}
+.sticky-submit-bar .btn {
+  width: 100% !important;
+  max-width: 640px !important;
+}
+.content.has-sticky-submit {
+  padding-bottom: 84px !important;
+}
 </style>
   <header class="header">
     <div class="brand">
@@ -149,7 +212,7 @@ html, body {
     </div>
   </header>
 
-  <main class="content w-full max-w-none px-4">
+  <main class="content has-sticky-submit w-full max-w-none px-4">
     <div class="banner w-full mb-6">
       <div class="flex items-center gap-4 mb-4">
         <div class="flex-shrink-0">
@@ -352,7 +415,15 @@ html, body {
               </div>
               <div class="space-y-2">
                 <label class="label"><span class="label-text font-medium">تاريخ التأسيس</span></label>
-                <input class="input input-bordered w-full" type="date" name="established_at" value="{{ old('established_at') }}">
+                <div class="relative">
+                  <input class="input input-bordered w-full pr-10" type="date" name="established_at" value="{{ old('established_at') }}" id="established-date" min="1900-01-01" max="{{ date('Y-m-d') }}">
+                  <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                </div>
+                <div class="text-xs text-gray-500">اختر تاريخ تأسيس الشركة أو المؤسسة</div>
                 @error('established_at')<div class="text-error text-sm mt-1">{{ $message }}</div>@enderror
               </div>
             </div>
@@ -815,6 +886,58 @@ html, body {
 
     // Initialize progress
     setProgress('1');
+
+    // Enhanced date picker functionality
+    const dateInput = document.getElementById('established-date');
+    if (dateInput) {
+      // Set default value to 10 years ago if empty
+      if (!dateInput.value) {
+        const tenYearsAgo = new Date();
+        tenYearsAgo.setFullYear(tenYearsAgo.getFullYear() - 10);
+        dateInput.value = tenYearsAgo.toISOString().split('T')[0];
+      }
+
+      // Add click handler to open calendar
+      dateInput.addEventListener('click', function() {
+        this.showPicker && this.showPicker();
+      });
+
+      // Add focus handler for better UX
+      dateInput.addEventListener('focus', function() {
+        this.style.borderColor = 'var(--primary)';
+        this.style.boxShadow = '0 0 0 3px rgba(126, 45, 43, 0.1)';
+      });
+
+      dateInput.addEventListener('blur', function() {
+        this.style.borderColor = '#d1d5db';
+        this.style.boxShadow = 'none';
+      });
+
+      // Validate date on change
+      dateInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        const today = new Date();
+        const minDate = new Date('1900-01-01');
+        
+        if (selectedDate > today) {
+          alert('لا يمكن اختيار تاريخ في المستقبل');
+          this.value = '';
+          return;
+        }
+        
+        if (selectedDate < minDate) {
+          alert('الرجاء اختيار تاريخ بعد عام 1900');
+          this.value = '';
+          return;
+        }
+
+        // Show success feedback
+        this.style.borderColor = '#10b981';
+        setTimeout(() => {
+          this.style.borderColor = '#d1d5db';
+        }, 1000);
+      });
+    }
   })();
   </script>
   @endpush

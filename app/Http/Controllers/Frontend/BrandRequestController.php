@@ -49,7 +49,7 @@ class BrandRequestController extends Controller
             'slug' => $data['slug'] ?? null,
             'description' => $data['description'] ?? null,
             'status' => 'pending',
-            'review_status' => 'pending',
+            'status' => 'pending',
             'legal_name' => $data['legal_name'] ?? null,
             'entity_type' => $data['entity_type'] ?? null,
             'registration_number' => $data['registration_number'] ?? null,

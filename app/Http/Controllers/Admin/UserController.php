@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\SellerProfile;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,14 @@ class UserController extends Controller
 {
     public function index(): View
     {
-        $users = User::where('role', '!=', 'admin')->latest()->paginate(15);
+        $query = User::where('role', '!=', 'admin')->latest();
+
+        if (request()->boolean('pending_sellers')) {
+            $pendingUserIds = SellerProfile::where('approved', false)->pluck('user_id');
+            $query->whereIn('id', $pendingUserIds);
+        }
+
+        $users = $query->paginate(15)->appends(request()->query());
         return view('admin.users.index', compact('users'));
     }
 

@@ -47,6 +47,24 @@
           </div>
         </a>
       </div>
+      <section class="banner">
+      <div class="emoji" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-7 w-7">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 7a5 5 0 0 1 10 0c0 .34-.03.67-.1.99A3.5 3.5 0 0 1 14.5 10h-5A3.5 3.5 0 0 1 7.1 7.99 5.7 5.7 0 0 1 7 7z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 13h8l-.6 5.1A2 2 0 0 1 13.42 20H10.6a2 2 0 0 1-1.98-1.9L8 13z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 10.5v2m5-2v2"/>
+        </svg>
+      </div>
+      <div class="text">
+        <b>بيع منتجاتك البيتية</b>
+        <span>أنشئ إعلانك الآن وسيتم مراجعته من الإدارة</span>
+      </div>
+      @auth
+        <a class="cta" href="{{ route('products.create') }}">بيع منتجك الآن</a>
+      @else
+        <a class="cta" href="{{ route('login') }}">سجّل لتبيع الآن</a>
+      @endauth
+    </section>
     </section>
 
     <section class="section">

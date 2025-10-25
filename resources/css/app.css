@@ -40,7 +40,7 @@
   .btn-square {@apply w-10 h-10 p-0 rounded-lg;}
 
   /* Cards */
-  .card {border: 1px solid rgba(0,0,0,0.06); border-radius: 1rem; background: var(--color-surface); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.15);} 
+  .card {border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent); border-radius: 1rem; background: var(--color-surface); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.15);} 
   .card-body {@apply p-5;}
   .card-title {@apply text-lg font-bold;}
 
@@ -53,7 +53,8 @@
   .badge-accent {@apply bg-purple-100 text-purple-800 border-purple-200;}
 
   /* Progress */
-  .progress {@apply h-2 w-full overflow-hidden rounded-full bg-gray-200;}
+  .progress {@apply h-2 w-full overflow-hidden rounded-full;}
+  .progress { background-color: color-mix(in srgb, var(--color-text) 10%, var(--color-surface)); }
   .progress::after {content: ""; display:block; height:100%; background-color: var(--color-primary); width: var(--value, 50%);} 
   .progress-primary::after {background-color: var(--color-primary);} 
   .progress-secondary::after {background-color: var(--color-secondary);} 
@@ -71,12 +72,15 @@
   .bg-brand-gradient {background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-secondary) 70%, var(--color-primary)));}
 
   /* Forms */
-  .input {@apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;}
-  .input-bordered {@apply border-gray-300;}
-  .select {@apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;}
-  .select-bordered {@apply border-gray-300;}
-  .textarea {@apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;}
-  .textarea-bordered {@apply border-gray-300;}
+  .input {@apply block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30;}
+  .input { background-color: var(--color-surface); color: var(--color-text); border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent); }
+  .input-bordered { border-color: color-mix(in srgb, var(--color-text) 18%, transparent); }
+  .select {@apply block w-full rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30;}
+  .select { background-color: var(--color-surface); color: var(--color-text); border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent); }
+  .select-bordered { border-color: color-mix(in srgb, var(--color-text) 18%, transparent); }
+  .textarea {@apply block w-full rounded-lg px-3 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30;}
+  .textarea { background-color: var(--color-surface); color: var(--color-text); border: 1px solid color-mix(in srgb, var(--color-text) 18%, transparent); }
+  .textarea-bordered { border-color: color-mix(in srgb, var(--color-text) 18%, transparent); }
 
   /* Menu (vertical list) */
   .menu {@apply list-none p-0 m-0;}
@@ -131,13 +135,23 @@
   /* Dropdown (basic hover) */
   .dropdown {@apply relative inline-block;}
   .dropdown-end {@apply text-right;}
-  .dropdown-content {@apply hidden absolute z-50 mt-2 min-w-[10rem] rounded-xl border border-gray-200 bg-white shadow;}
+  .dropdown-content {@apply hidden absolute z-50 mt-2 min-w-[10rem] rounded-xl border shadow;}
+  .dropdown-content { background-color: var(--color-surface); border-color: color-mix(in srgb, var(--color-text) 12%, transparent); }
   .dropdown:hover .dropdown-content {@apply block;}
 
   /* Aliases for previous utilities (compat) */
-  .bg-base-100 {@apply bg-white;}
-  .text-base-content {@apply text-gray-900;}
-  .border-base-200 {@apply border-gray-200;}
+  .bg-base-100 { background-color: var(--color-surface); }
+  .bg-base-200 { background-color: color-mix(in srgb, var(--color-text) 6%, var(--color-surface)); }
+  .text-base-content { color: var(--color-text); }
+  .border-base-200 { border-color: color-mix(in srgb, var(--color-text) 12%, transparent); }
+  .border-base-300 { border-color: color-mix(in srgb, var(--color-text) 18%, transparent); }
+
+  /* Emulate Tailwind slashed opacity utilities for base-* colors used in templates */
+  .bg-base-100\/80 { background-color: color-mix(in srgb, var(--color-surface) 80%, transparent); }
+  .bg-base-200\/50 { background-color: color-mix(in srgb, var(--color-text) 6%, var(--color-surface)); background-color: color-mix(in srgb, currentColor 0%, var(--color-surface)); }
+  .from-base-100\/50 { --tw-gradient-from: color-mix(in srgb, var(--color-surface) 50%, transparent); --tw-gradient-to: transparent; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+  .to-base-200\/30 { --tw-gradient-to: color-mix(in srgb, var(--color-text) 6%, var(--color-surface)); }
+  .to-base-200\/50 { --tw-gradient-to: color-mix(in srgb, var(--color-text) 10%, var(--color-surface)); }
 
   /* Theme utility */
   .theme-bg {background-color: var(--color-bg);} 
