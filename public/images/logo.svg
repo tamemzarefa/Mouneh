@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="مونة سويّدا">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#8b3230"/>
+      <stop offset="100%" stop-color="#7e2d2b"/>
+    </linearGradient>
+  </defs>
+  <rect rx="14" ry="14" x="2" y="2" width="60" height="60" fill="url(#g)"/>
+  <g transform="translate(12,16)" stroke="#ffffff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 8h40"/>
+    <path d="M10 8l2.6 22a3 3 0 0 0 3 2.6h20.8a3 3 0 0 0 3-2.6L42 8"/>
+    <path d="M22 8V6a6 6 0 0 1 12 0v2"/>
+  </g>
+</svg>

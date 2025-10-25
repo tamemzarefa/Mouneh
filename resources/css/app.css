@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Theme variables */
+:root,
+[data-theme="mouneh"],
+[data-theme="light"] {
+  --color-primary: #FF8F8F; /* brand primary */
+  --color-secondary: #B7A3E3; /* brand secondary */
+  --color-accent: #0ea5e9; /* sky */
+  --color-bg: #f8fafc; /* slate-50 */
+  --color-surface: #ffffff; /* white */
+  --color-text: #0f172a; /* slate-900 */
+  --color-muted: #64748b; /* slate-500 */
+}
+
+[data-theme="dark"] {
+  --color-primary: #ff7a7a; /* tuned primary for dark */
+  --color-secondary: #a58fe6; /* tuned secondary for dark */
+  --color-accent: #38bdf8; /* sky-400 */
+  --color-bg: #0b1220; /* dark base */
+  --color-surface: #111827; /* gray-900 */
+  --color-text: #e5e7eb; /* gray-200 */
+  --color-muted: #94a3b8; /* slate-400 */
+}
+
+@layer components {
+  /* Buttons */
+  .btn {@apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2;}
+  .btn-sm {@apply px-3 py-1.5 text-sm;}
+  .btn-xs {@apply px-2 py-1 text-xs;}
+  .btn-primary {background-color: var(--color-primary); color: #fff;}
+  .btn-primary:hover {filter: saturate(1.1) brightness(0.95);}
+  .btn-primary:focus {box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 25%, transparent);}  
+  .btn-secondary {background-color: var(--color-secondary); color: #fff;}
+  .btn-secondary:hover {filter: saturate(1.1) brightness(0.95);} 
+  .btn-secondary:focus {box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-secondary) 25%, transparent);} 
+  .btn-ghost {@apply bg-transparent text-inherit hover:bg-black/5;}
+  .btn-square {@apply w-10 h-10 p-0 rounded-lg;}
+
+  /* Cards */
+  .card {border: 1px solid rgba(0,0,0,0.06); border-radius: 1rem; background: var(--color-surface); box-shadow: 0 6px 20px -8px rgba(0,0,0,0.15);} 
+  .card-body {@apply p-5;}
+  .card-title {@apply text-lg font-bold;}
+
+  /* Badges */
+  .badge {@apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold border border-black/10 bg-black/5 text-gray-700;}
+  .badge-success {@apply bg-green-100 text-green-700 border-green-200;}
+  .badge-error {@apply bg-red-100 text-red-700 border-red-200;}
+  .badge-warning {@apply bg-amber-100 text-amber-800 border-amber-200;}
+  .badge-info {@apply bg-sky-100 text-sky-800 border-sky-200;}
+  .badge-accent {@apply bg-purple-100 text-purple-800 border-purple-200;}
+
+  /* Progress */
+  .progress {@apply h-2 w-full overflow-hidden rounded-full bg-gray-200;}
+  .progress::after {content: ""; display:block; height:100%; background-color: var(--color-primary); width: var(--value, 50%);} 
+  .progress-primary::after {background-color: var(--color-primary);} 
+  .progress-secondary::after {background-color: var(--color-secondary);} 
+
+  /* Tables */
+  .table {@apply w-full text-right;}
+  .table thead {background-color: color-mix(in srgb, var(--color-text) 6%, var(--color-surface)); color: var(--color-muted); font-size: 0.875rem;}
+  .table thead.sticky {box-shadow: 0 2px 0 color-mix(in srgb, var(--color-text) 8%, transparent);} 
+  .table th {@apply px-4 py-3 font-semibold;}
+  .table td {@apply px-4 py-3;}
+  .table-zebra tbody tr:nth-child(odd) {background-color: color-mix(in srgb, var(--color-text) 3%, var(--color-surface));}
+
+  /* Navbar */
+  .navbar {@apply flex items-center justify-between px-4 py-3; background-color: var(--color-surface); color: var(--color-text);} 
+  .bg-brand-gradient {background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-secondary) 70%, var(--color-primary)));}
+
+  /* Forms */
+  .input {@apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;}
+  .input-bordered {@apply border-gray-300;}
+  .select {@apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;}
+  .select-bordered {@apply border-gray-300;}
+  .textarea {@apply block w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary;}
+  .textarea-bordered {@apply border-gray-300;}
+
+  /* Menu (vertical list) */
+  .menu {@apply list-none p-0 m-0;}
+  .menu li {@apply block;}
+  .menu a {@apply flex items-center gap-2 rounded-full px-3 py-2 transition-colors;}
+  .menu a:hover {background: color-mix(in srgb, var(--color-text) 6%, transparent);} 
+  .menu .active {background: color-mix(in srgb, var(--color-primary) 18%, transparent); color: var(--color-text);} 
+  .menu .active .icon {color: var(--color-primary);} 
+  .menu-sep {@apply my-3 h-px w-full bg-gray-200;} 
+  .icon {width: 1.125rem; height: 1.125rem; color: currentColor;}
+
+  /* Drawer layout */
+  .drawer {@apply grid; grid-template-columns: 1fr;}
+  /* Ensure sidebar stays to the right regardless of RTL */
+  .drawer {direction: ltr;}        /* container coordinates */
+  .drawer-content {direction: rtl;}/* restore RTL for content */
+  .drawer-side {direction: rtl;}   /* restore RTL for sidebar text */
+  .drawer-toggle {@apply hidden;}
+  .drawer-content {@apply col-span-1;}
+  .drawer-side {@apply fixed inset-y-0 right-0 translate-x-full transition-transform duration-200;}
+  /* Overlay click area */
+  .drawer-overlay {@apply hidden fixed inset-0 bg-black/30;}
+  /* When checkbox checked, show sidebar on small screens */
+  #admin-drawer:checked ~ .drawer-side {@apply translate-x-0 w-72;}
+  #admin-drawer:checked ~ .drawer-side .drawer-overlay {@apply block;}
+  /* Large screens: sidebar always visible */
+  @screen lg {
+    .drawer {grid-template-columns: 1fr 20rem;}
+    .drawer-side {@apply static translate-x-0 w-auto;}
+    .drawer-overlay {@apply hidden;}
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs ul {@apply flex flex-wrap gap-2 text-sm text-gray-600;}
+  .breadcrumbs ul li {@apply inline-flex items-center;}
+  .breadcrumbs ul li+li::before {content: "/"; @apply mx-2 text-gray-400;}
+
+  /* Footer */
+  .footer {background-color: var(--color-surface); color: var(--color-text);} 
+  .footer-center {@apply text-center;}
+
+  /* Misc */
+  .rounded-box {@apply rounded-2xl;}
+  .link {@apply underline underline-offset-2 decoration-gray-300 hover:decoration-current;}
+  .link-primary {color: var(--color-primary);} 
+  .link-error {@apply text-red-600;}
+  .divider {@apply w-full h-px bg-gray-200 my-4;}
+  .avatar .placeholder {@apply flex items-center justify-center;}
+  .avatar {@apply inline-flex items-center justify-center;}
+  .btn-circle {@apply rounded-full w-10 h-10 p-0;}
+
+  /* Dropdown (basic hover) */
+  .dropdown {@apply relative inline-block;}
+  .dropdown-end {@apply text-right;}
+  .dropdown-content {@apply hidden absolute z-50 mt-2 min-w-[10rem] rounded-xl border border-gray-200 bg-white shadow;}
+  .dropdown:hover .dropdown-content {@apply block;}
+
+  /* Aliases for previous utilities (compat) */
+  .bg-base-100 {@apply bg-white;}
+  .text-base-content {@apply text-gray-900;}
+  .border-base-200 {@apply border-gray-200;}
+
+  /* Theme utility */
+  .theme-bg {background-color: var(--color-bg);} 
+  .theme-surface {background-color: var(--color-surface);} 
+  .theme-text {color: var(--color-text);} 
+  .theme-muted {color: var(--color-muted);} 
+  .theme-border {border-color: color-mix(in srgb, var(--color-text) 12%, transparent);} 
+}

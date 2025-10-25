@@ -1,0 +1,83 @@
+@extends('layouts.admin')
+
+@section('title', 'تعديل علامة')
+
+@section('content')
+  <div class="container mx-auto p-4">
+    <div class="card theme-surface theme-border shadow-md">
+      <div class="card-body">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold">تعديل {{ $brand->name }}</h3>
+          @if(session('status'))
+            <div class="alert alert-success">{{ session('status') }}</div>
+          @endif
+        </div>
+        <form method="POST" action="{{ route('admin.brands.update', $brand) }}" enctype="multipart/form-data" class="grid gap-4">
+          @csrf
+          @method('PUT')
+          <div>
+            <label class="label"><span class="label-text">الاسم</span></label>
+            <input class="input input-bordered w-full" type="text" name="name" value="{{ old('name', $brand->name) }}" required>
+            @error('name')<div class="text-error text-sm mt-1">{{ $message }}</div>@enderror
+          </div>
+          <div>
+            <label class="label"><span class="label-text">المعرّف (slug)</span></label>
+            <input class="input input-bordered w-full" type="text" name="slug" value="{{ old('slug', $brand->slug) }}">
+            @error('slug')<div class="text-error text-sm mt-1">{{ $message }}</div>@enderror
+          </div>
+          <div>
+            <label class="label"><span class="label-text">الوصف</span></label>
+            <textarea class="textarea textarea-bordered w-full" name="description" rows="4">{{ old('description', $brand->description) }}</textarea>
+            @error('description')<div class="text-error text-sm mt-1">{{ $message }}</div>@enderror
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="label"><span class="label-text">الشعار (Logo)</span></label>
+              <div class="flex items-center gap-3 mb-2">
+                @php($logoUrl = $brand->getFirstMediaUrl('logo'))
+                @if($logoUrl)
+                  <img src="{{ $logoUrl }}" alt="{{ $brand->name }}" class="w-12 h-12 rounded-lg object-cover border border-base-300 bg-base-100">
+                @else
+                  <div class="w-12 h-12 rounded-lg bg-base-200 grid place-items-center text-xs">—</div>
+                @endif
+              </div>
+              <input class="file-input file-input-bordered w-full" type="file" name="logo" accept="image/*">
+              <div class="text-xs theme-muted mt-1">PNG/JPG/WEBP حتى 4MB</div>
+              @error('logo')<div class="text-error text-sm mt-1">{{ $message }}</div>@enderror
+            </div>
+            <div>
+              <label class="label"><span class="label-text">صورة الغلاف (Cover)</span></label>
+              <div class="mb-2">
+                @php($coverUrl = $brand->getFirstMediaUrl('cover'))
+                @if($coverUrl)
+                  <img src="{{ $coverUrl }}" alt="{{ $brand->name }}" class="w-full max-w-sm h-20 object-cover rounded-lg border border-base-300 bg-base-100">
+                @else
+                  <div class="w-full max-w-sm h-20 rounded-lg bg-base-200 grid place-items-center text-xs">—</div>
+                @endif
+              </div>
+              <input class="file-input file-input-bordered w-full" type="file" name="cover" accept="image/*">
+              <div class="text-xs theme-muted mt-1">PNG/JPG/WEBP حتى 6MB</div>
+              @error('cover')<div class="text-error text-sm mt-1">{{ $message }}</div>@enderror
+            </div>
+          </div>
+          <div>
+            <label class="label"><span class="label-text">الحالة</span></label>
+            <select class="select select-bordered w-full" name="status">
+              <option value="pending" @selected(old('status', $brand->status)==='pending')>قيد المراجعة</option>
+              <option value="approved" @selected(old('status', $brand->status)==='approved')>معتمدة</option>
+              <option value="rejected" @selected(old('status', $brand->status)==='rejected')>مرفوضة</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2 justify-end pt-2">
+            <a href="{{ route('admin.brands.index') }}" class="btn btn-ghost">رجوع</a>
+            <button type="submit" class="btn btn-primary">حفظ</button>
+          </div>
+        </form>
+        <div class="flex gap-2 mt-4">
+          <form method="POST" action="{{ route('admin.brands.approve', $brand) }}">@csrf<button class="btn btn-success" type="submit">اعتماد</button></form>
+          <form method="POST" action="{{ route('admin.brands.reject', $brand) }}">@csrf<button class="btn btn-error" type="submit">رفض</button></form>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection
